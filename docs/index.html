@@ -3,101 +3,270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taylor Swift Boyfriends Timeline</title>
+    <title>Relationship Timelines: Swift, West, Kardashian, Combs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 20px;
-            background-color: #f4f4f4;
+            background-color: #f0f2f5;
         }
         h1 {
             text-align: center;
-            color: #333;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 10px;
         }
         .timeline-container {
-            max-width: 1000px;
+            display: grid;
+            grid-template-columns: 80px 1fr 1fr 1fr 1fr; /* Y-axis + 4 timelines */
+            gap: 15px;
+            width: 100%;
+            max-width: 1900px;
             margin: 0 auto;
+            padding: 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            height: 8000px; /* Taller timeline */
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             position: relative;
-            padding: 20px 0;
+        }
+        .y-axis {
+            position: relative;
+            z-index: 1;
         }
         .timeline {
             position: relative;
-            border-left: 4px solid #007bff;
-            padding-left: 20px;
+            width: 450px;
+            z-index: 2;
         }
+        .swift { border-left: 4px solid #007bff; }
+        .west { border-left: 4px solid #6f42c1; }
+        .kardashian { border-left: 4px solid #e83e8c; }
+        .combs { border-left: 4px solid #28a745; }
         .event {
-            margin: 20px 0;
-            position: relative;
+            position: absolute;
+            width: 100%;
+            margin: 60px 0;
+            transition: transform 0.2s ease;
+            z-index: 3;
+        }
+        .event:hover {
+            transform: scale(1.05);
         }
         .event-bar {
-            background-color: #007bff;
-            height: 20px;
+            height: 30px;
             border-radius: 5px;
             position: relative;
             display: inline-block;
-            min-width: 10px; /* Ensure short durations are visible */
+            min-width: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: opacity 0.2s ease;
         }
+        .swift .event-bar { background: linear-gradient(90deg, #005bb5, #00b7eb); }
+        .west .event-bar { background: linear-gradient(90deg, #5a2d9b, #8e44ad); }
+        .kardashian .event-bar { background: linear-gradient(90deg, #c2185b, #f06292); }
+        .combs .event-bar { background: linear-gradient(90deg, #1b5e20, #2e7d32); }
+        .event:hover .event-bar { opacity: 0.9; }
         .event-label {
             position: absolute;
-            top: -30px;
-            font-weight: bold;
-            color: #333;
+            top: -35px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 14px;
+            white-space: nowrap;
         }
         .event-details {
             margin-top: 5px;
-            font-size: 14px;
-            color: #555;
-        }
-        .event-year {
+            font-size: 10px;
+            color: black;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 5px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: none;
             position: absolute;
-            left: -70px;
-            top: 0;
+            z-index: 0;
+        }
+        .event:hover .event-details {
+            display: block;
+        }
+        .left .event-bar { left: 20px; }
+        .right .event-bar { right: 202px; transform: translateX(-100%); }
+        .left .event-label { left: 20px; }
+        .right .event-label { right: 200px; text-align: left; }
+        .left .event-details { left: 20px; }
+        .right .event-details { right: 202px; text-align: left; }
+        .year-marker {
+            position: absolute;
+            left: 10px;
             font-size: 14px;
-            color: #333;
+            color: #2c3e50;
+            font-weight: 400;
+            z-index: 2;
+        }
+        .dotted-line {
+            position: absolute;
+            width: 100%;
+            border-top: 1px dotted #333;
+            z-index: 0;
+        }
+        .timeline-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .timeline-container::-webkit-scrollbar-thumb {
+            background: #007bff;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
-    <h1>Taylor Swift Boyfriends Timeline (2008–2025)</h1>
+    <h1>Relationship Timelines (1990–2025)</h1>
     <div class="timeline-container">
-        <div class="timeline" id="timeline"></div>
+        <div class="y-axis" id="y-axis"></div>
+        <div class="timeline-wrapper">
+            <h2>Swift</h2>
+            <div class="timeline swift" id="swift-timeline"></div>
+        </div>
+        <div class="timeline-wrapper">
+            <h2>West</h2>
+            <div class="timeline west" id="west-timeline"></div>
+        </div>
+        <div class="timeline-wrapper">
+            <h2>Kim K</h2>
+            <div class="timeline kardashian" id="kardashian-timeline"></div>
+        </div>
+        <div class="timeline-wrapper">
+            <h2>Combs</h2>
+            <div class="timeline combs" id="combs-timeline"></div>
+        </div>
     </div>
 
     <script>
-        const relationships = [
-            { name: "Joe Jonas", start: "2008-07", end: "2008-10", duration: 4, details: "Inspired 'Forever & Always,' 'Last Kiss' (Fearless)" },
-            { name: "Lucas Till", start: "2009-03", end: "2009-04", duration: 2, details: "No major songs linked" },
-            { name: "Taylor Lautner", start: "2009-08", end: "2009-12", duration: 5, details: "Inspired 'Back to December' (Speak Now)" },
-            { name: "John Mayer", start: "2009-12", end: "2010-02", duration: 3, details: "Inspired 'Dear John' (Speak Now)" },
-            { name: "Jake Gyllenhaal", start: "2010-10", end: "2011-01", duration: 4, details: "Inspired 'All Too Well,' others (Red)" },
-            { name: "Conor Kennedy", start: "2012-07", end: "2012-09", duration: 3, details: "Inspired 'Begin Again' (Red)" },
-            { name: "Harry Styles", start: "2012-10", end: "2013-01", duration: 4, details: "Inspired 'Style,' 'Out of the Woods' (1989)" },
-            { name: "Calvin Harris", start: "2015-03", end: "2016-06", duration: 15, details: "Inspired 'I Forgot That You Existed' (Lover)" },
-            { name: "Tom Hiddleston", start: "2016-06", end: "2016-09", duration: 4, details: "Inspired 'Getaway Car' (Reputation)" },
-            { name: "Joe Alwyn", start: "2016-09", end: "2023-04", duration: 80, details: "Inspired Lover, Folklore, Evermore songs" },
-            { name: "Matty Healy", start: "2023-05", end: "2023-06", duration: 2, details: "Inspired The Tortured Poets Department tracks" },
-            { name: "Travis Kelce", start: "2023-08", end: "2025-05", duration: 21, details: "Ongoing, no confirmed songs" }
-        ];
+        const relationships = {
+            swift: [
+                { name: "Joe Jonas", start: "2008-07", end: "2008-10", duration: 4, details: "Inspired 'Forever & Always,' 'Last Kiss' (Fearless)" },
+                { name: "Lucas Till", start: "2009-03", end: "2009-05", duration: 2, details: "No major songs linked" },
+                { name: "Taylor Lautner", start: "2009-08", end: "2009-12", duration: 5, details: "Inspired 'Back to December' (Speak Now)" },
+                { name: "John Mayer", start: "2009-12", end: "2010-02", duration: 3, details: "Inspired 'Dear John' (Speak Now)" },
+                { name: "Jake Gyllenhaal", start: "2010-10", end: "2011-01", duration: 4, details: "Inspired 'All Too Well,' others (Red)" },
+                { name: "Conor Kennedy", start: "2012-07", end: "2012-09", duration: 3, details: "Inspired 'Begin Again' (Red)" },
+                { name: "Harry Styles", start: "2012-10", end: "2013-01", duration: 4, details: "Inspired 'Style,' 'Out of the Woods' (1989)" },
+                { name: "Calvin Harris", start: "2015-03", end: "2016-06", duration: 15, details: "Inspired 'I Forgot That You Existed' (Lover)" },
+                { name: "Tom Hiddleston", start: "2016-06", end: "2016-09", duration: 4, details: "Inspired 'Getaway Car' (Reputation)" },
+                { name: "Joe Alwyn", start: "2016-09", end: "2023-04", duration: 80, details: "Inspired Lover, Folklore, Evermore songs" },
+                { name: "Matty Healy", start: "2023-05", end: "2023-06", duration: 2, details: "Inspired The Tortured Poets Department tracks" },
+                { name: "Travis Kelce", start: "2023-08", end: "2025-05", duration: 21, details: "Ongoing, no confirmed songs" }
+            ],
+            west: [
+                { name: "Sumeke Rainey", start: "1996-01", end: "2002-12", duration: 72, details: "High school sweetheart, inspired 'Never Let Me Down' (The College Dropout)" },
+                { name: "Alexis Phifer", start: "2002-01", end: "2008-04", duration: 72, details: "Engaged, inspired themes in 808s & Heartbreak" },
+                { name: "Amber Rose", start: "2008-09", end: "2010-08", duration: 24, details: "Inspired 'Runaway' (My Beautiful Dark Twisted Fantasy)" },
+                { name: "Kim Kardashian", start: "2012-04", end: "2021-02", duration: 107, details: "Married 2014, 4 children, inspired 'Bound 2' (Yeezus)" },
+                { name: "Vinetria", start: "2021-06", end: "2021-12", duration: 6, details: "Model, brief relationship post-divorce" },
+                { name: "Julia Fox", start: "2022-01", end: "2022-02", duration: 2, details: "Actress, short-lived relationship" },
+                { name: "Chaney Jones", start: "2022-02", end: "2022-06", duration: 4, details: "Model, brief relationship" },
+                { name: "Juliana Nalù", start: "2022-10", end: "2022-12", duration: 3, details: "Model, brief relationship" },
+                { name: "Bianca Censori", start: "2023-01", end: "2025-02", duration: 25, details: "Married 2023, Yeezy LLC employee, separated 2025" }
+            ],
+            kardashian: [
+                { name: "Damon Thomas", start: "2000-01", end: "2003-02", duration: 37, details: "Married at 19, divorced 2004, claimed ecstasy use" },
+                { name: "Ray J", start: "2003-05", end: "2006-05", duration: 36, details: "Sex tape leaked 2007" },
+                { name: "Nick Lachey", start: "2006-05", end: "2006-07", duration: 3, details: "Brief fling, seen at The Da Vinci Code" },
+                { name: "Nick Cannon", start: "2006-09", end: "2007-02", duration: 6, details: "Dated, ended due to sex tape issues" },
+                { name: "Reggie Bush", start: "2007-07", end: "2010-07", duration: 36, details: "On-and-off, split due to distance" },
+                { name: "Cristiano Ronaldo", start: "2010-04", end: "2010-05", duration: 2, details: "Brief fling in Madrid" },
+                { name: "Miles Austin", start: "2010-06", end: "2010-09", duration: 4, details: "Split due to long distance" },
+                { name: "Shengo Deane", start: "2010-09", end: "2010-10", duration: 2, details: "Brief romance with bodyguard" },
+                { name: "Gabriel Aubry", start: "2010-11", end: "2010-12", duration: 2, details: "Dated post-Halle Berry split" },
+                { name: "Kris Humphries", start: "2010-10", end: "2011-10", duration: 13, details: "Married 72 days, divorced 2013" },
+                { name: "Kanye West", start: "2012-04", end: "2021-02", duration: 107, details: "Married 2014, 4 children, divorced 2021" },
+                { name: "Pete Davidson", start: "2021-11", end: "2022-08", duration: 10, details: "Dated post-SNL, split due to distance" },
+                { name: "Odell Beckham Jr.", start: "2023-09", end: "2024-03", duration: 7, details: "Brief romance, split due to schedules" }
+            ],
+            combs: [
+                { name: "Salli Richardson-Whitfield", start: "1990-11", end: "1991-05", duration: 7, details: "Dated early in career" },
+                { name: "Misa Hylton-Brim", start: "1992-09", end: "1995-03", duration: 30, details: "Dated, welcomed son Justin" },
+                { name: "Kim Porter", start: "1994-05", end: "2007-07", duration: 158, details: "On-and-off, 3 children, raised Quincy" },
+                { name: "Jennifer Lopez", start: "1999-08", end: "2001-02", duration: 18, details: "High-profile romance" },
+                { name: "Sarah Chapman", start: "2006-01", end: "2006-07", duration: 7, details: "Dated, welcomed daughter Chance" },
+                { name: "Cassie Ventura", start: "2007-05", end: "2018-10", duration: 137, details: "On-and-off, public in 2012, split 2018" },
+                { name: "Gina Huynh", start: "2014-09", end: "2019-01", duration: 53, details: "Dated on-and-off, public in 2019" },
+                { name: "Lori Harvey", start: "2019-07", end: "2019-10", duration: 4, details: "Brief romance, seen in Italy" },
+                { name: "Yung Miami", start: "2021-06", end: "2023-06", duration: 24, details: "Dated, confirmed by Yung Miami" },
+                { name: "Dana Tran", start: "2021-09", end: "2022-12", duration: 16, details: "Dated, welcomed daughter Love" }
+            ]
+        };
 
-        // Calculate max duration for scaling bar lengths
-        const maxDuration = Math.max(...relationships.map(r => r.duration));
-        const maxBarWidth = 600; // Max width for longest bar in pixels
+        // Calculate timeline range (1990 to May 2025)
+        const startYear = 1990;
+        const endYear = 2025;
+        const totalMonths = (endYear - startYear) * 12 + 5; // 424 months
+        const timelineHeight = 8000; // Taller timeline
+        const pixelsPerMonth = timelineHeight / totalMonths;
 
-        // Generate timeline
-        const timeline = document.getElementById("timeline");
-        relationships.forEach((rel, index) => {
-            const startYear = rel.start.split("-")[0];
-            const barWidth = (rel.duration / maxDuration) * maxBarWidth;
-            const event = document.createElement("div");
-            event.className = "event";
-            event.innerHTML = `
-                <div class="event-year">${startYear}</div>
-                <div class="event-label">${rel.name}</div>
-                <div class="event-bar" style="width: ${barWidth}px;"></div>
-                <div class="event-details">${rel.start} – ${rel.end} (${rel.duration} months)<br>${rel.details}</div>
-            `;
-            timeline.appendChild(event);
-        });
+        // Function to convert date (YYYY-MM) to months since Jan 1990
+        function dateToMonths(date) {
+            const [year, month] = date.split("-").map(Number);
+            return (year - startYear) * 12 + (month - 1);
+        }
+
+        // Generate Y-axis and dotted lines
+        const yAxis = document.getElementById("y-axis");
+        for (let year = startYear; year <= endYear; year++) {
+            const months = (year - startYear) * 12;
+            const topPosition = months * pixelsPerMonth;
+
+            // Year marker
+            const marker = document.createElement("div");
+            marker.className = "year-marker";
+            marker.style.top = `${topPosition}px`;
+            marker.textContent = year;
+            yAxis.appendChild(marker);
+
+            // Dotted line
+            const dottedLine = document.createElement("div");
+            dottedLine.className = "dotted-line";
+            dottedLine.style.top = `${topPosition}px`;
+            yAxis.appendChild(dottedLine);
+        }
+
+        // Function to generate timeline
+        function generateTimeline(timelineId, rels, className) {
+            const maxDuration = Math.max(...rels.map(r => r.duration));
+            const maxBarWidth = 300;
+            const timeline = document.getElementById(timelineId);
+
+            rels.forEach((rel, index) => {
+                const startMonths = dateToMonths(rel.start);
+                const topPosition = startMonths * pixelsPerMonth;
+                const barWidth = (rel.duration / maxDuration) * maxBarWidth;
+                const event = document.createElement("div");
+                event.className = `event ${index % 2 === 0 ? 'left' : 'right'}`;
+                event.style.top = `${topPosition}px`;
+                event.innerHTML = `
+                    <div class="event-label">${rel.name}</div>
+                    <div class="event-bar" style="width: ${barWidth}px;"></div>
+                    <div class="event-details">${rel.start} – ${rel.end} (${rel.duration} months)<br>${rel.details}</div>
+                `;
+                timeline.appendChild(event);
+            });
+        }
+
+        // Generate all timelines
+        generateTimeline("swift-timeline", relationships.swift, "swift");
+        generateTimeline("west-timeline", relationships.west, "west");
+        generateTimeline("kardashian-timeline", relationships.kardashian, "kardashian");
+        generateTimeline("combs-timeline", relationships.combs, "combs");
     </script>
 </body>
 </html>
